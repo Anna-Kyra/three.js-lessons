@@ -1,6 +1,20 @@
 import * as THREE from 'three'
 
 /**
+ * Cursor
+ */
+// native js, geen THREE.js
+const cursor = {
+    x: 0,
+    y: 0
+}
+window.addEventListener('mousemove', (event) => {
+    cursor.x = event.clientX / sizes.width - 0.5 // dus grote van de canvas, de -0.5 is voor de camera dat ie net zo ver links als rechts kan
+    cursor.y = - (event.clientY / sizes.height - 0.5) // moet negatief zijn want in three.js is het ondersom
+    // console.log(cursor.y)
+})
+
+/**
  * Base
  */
 // Canvas
@@ -23,21 +37,21 @@ const mesh = new THREE.Mesh(
 scene.add(mesh)
 
 // Camera
-// const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 
-const aspectRatio = sizes.width / sizes.height
-console.log(aspectRatio)
-const camera = new THREE.OrthographicCamera(
-    -1 * aspectRatio,
-    1 * aspectRatio, 
-    1, 
-    -1, 
-    0.1, 
-    100 
-) // left right top bottom near far
-camera.position.x = 2
-camera.position.y = 2
-camera.position.z = 2
+// const aspectRatio = sizes.width / sizes.height
+// console.log(aspectRatio)
+// const camera = new THREE.OrthographicCamera(
+//     -1 * aspectRatio,
+//     1 * aspectRatio, 
+//     1, 
+//     -1, 
+//     0.1, 
+//     100 
+// ) // left right top bottom near far
+// camera.position.x = 2
+// camera.position.y = 2
+camera.position.z = 3
 console.log(camera.position.length())
 camera.lookAt(mesh.position)
 scene.add(camera)
@@ -56,7 +70,16 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    mesh.rotation.y = elapsedTime;
+    // mesh.rotation.y = elapsedTime;
+
+    // Update camera
+    // camera.position.x = cursor.x * 10
+    // camera.position.y = cursor.y * 10
+    camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+    camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+    camera.position.y = cursor.y * 5
+    // camera.lookAt(new THREE.Vector3())
+    camera.lookAt(mesh.position)
 
     // Render
     renderer.render(scene, camera)
