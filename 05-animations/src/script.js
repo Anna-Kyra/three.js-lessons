@@ -29,22 +29,20 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 
-// Time
-let time = Date.now()
+// Clock
+const clock = new THREE.Clock()
 
 // Animations
 const tick = () => {
-    // Time
-    const currentTime = Date.now()
-    const deltaTime = currentTime - time // het verschil tussen de eerste en de tweede tick
-    time = currentTime
-
-    console.log(deltaTime)
+    // Clock
+    const elapsedTime = clock.getElapsedTime() // begint altijd op 0 zijn secondes
+    console.log(elapsedTime)
 
     // Update objects
-    // mesh.position.x -= 0.01 
-    // mesh.position.y -= 0.01 
-    mesh.rotation.y += 0.001 * deltaTime // De cube gaat nu op de selfde snelheid regardless of the frame rate
+    // mesh.rotation.y = elapsedTime * Math.PI * 2
+    camera.position.y = Math.sin(elapsedTime)
+    camera.position.x = Math.cos(elapsedTime)
+    camera.lookAt(mesh.position)
 
     // Render
     renderer.render(scene, camera)
