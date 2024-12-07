@@ -28,4 +28,27 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
-renderer.render(scene, camera)
+
+// Time
+let time = Date.now()
+
+// Animations
+const tick = () => {
+    // Time
+    const currentTime = Date.now()
+    const deltaTime = currentTime - time // het verschil tussen de eerste en de tweede tick
+    time = currentTime
+
+    console.log(deltaTime)
+
+    // Update objects
+    // mesh.position.x -= 0.01 
+    // mesh.position.y -= 0.01 
+    mesh.rotation.y += 0.001 * deltaTime // De cube gaat nu op de selfde snelheid regardless of the frame rate
+
+    // Render
+    renderer.render(scene, camera)
+    window.requestAnimationFrame(tick)
+}
+
+tick()
