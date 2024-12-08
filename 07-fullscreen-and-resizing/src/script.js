@@ -26,6 +26,21 @@ const sizes = {
     height: window.innerHeight
 }
 
+window.addEventListener('resize', () => {
+    // console.log('resize window')
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix() // update de camera, doet iets
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height) // update de renderer size
+
+})
+
 /**
  * Camera
  */
@@ -36,7 +51,7 @@ scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-controls.enabled = false
+// controls.enabled = false
 controls.enableDamping = true
 
 /**
