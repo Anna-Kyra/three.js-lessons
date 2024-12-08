@@ -30,21 +30,24 @@ const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
+const cubeTweaks = gui.addFolder('Awesome Cube')
+cubeTweaks.close()
+
 // gui.add(mesh.position, 'y', - 3, 3, 0.01)
-gui
+cubeTweaks
     .add(mesh.position, 'y')
     .min(- 3)
     .max(3)
     .step(0.01)
     .name('elevation')
 
-gui
+cubeTweaks
     .add(mesh, 'visible') // is een checkbox
 
-gui
+cubeTweaks
     .add(material, 'wireframe')
 
-gui
+cubeTweaks
     .addColor(debugObject, 'color') // color is een object, daarom kan je niet gewoon add schrijven, maar addColor
     .onChange(() => { 
         material.color.set(debugObject.color)
@@ -54,10 +57,11 @@ debugObject.spin = () => {
     gsap.to(mesh.rotation, { y: mesh.rotation.y + Math.PI * 2 })
 }
 
-gui.add(debugObject, 'spin') // maakt animatie
+cubeTweaks
+    .add(debugObject, 'spin') // maakt animatie
 
 debugObject.subdivision = 2
-gui
+cubeTweaks
     .add(debugObject, 'subdivision')
     .min(1)
     .max(20)
