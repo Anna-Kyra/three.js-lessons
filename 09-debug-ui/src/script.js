@@ -7,6 +7,9 @@ import GUI from 'lil-gui'
  * Debug
  */
 const gui = new GUI()
+const debugObject = {
+
+}
 
 /**
  * Base
@@ -20,8 +23,10 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
+debugObject.color = '#a778d8'
+
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
+const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
@@ -40,11 +45,16 @@ gui
     .add(material, 'wireframe')
 
 gui
-    .addColor(material, 'color') // color is een object, daarom kan je niet gewoon add schrijven, maar addColor
-    .onChange((value) => { // Code veranderd niet goed mee/heeft niet dezelfde kleur, daarom de onChange
-        // console.log(material.color)
-        console.log(value.getHexString()) // werkt niet goed voor designers, moet een betere solution zijn
+    .addColor(debugObject, 'color') // color is een object, daarom kan je niet gewoon add schrijven, maar addColor
+    .onChange(() => { 
+        material.color.set(debugObject.color)
     })
+
+debugObject.spin = () => {
+    gsap.to(mesh.rotation, { y: mesh.rotation.y + Math.PI * 2 })
+}
+
+gui.add(debugObject, 'spin') // maakt animatie
 
 /**
  * Sizes
