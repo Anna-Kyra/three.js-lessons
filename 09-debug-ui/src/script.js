@@ -56,6 +56,21 @@ debugObject.spin = () => {
 
 gui.add(debugObject, 'spin') // maakt animatie
 
+debugObject.subdivision = 2
+gui
+    .add(debugObject, 'subdivision')
+    .min(1)
+    .max(20)
+    .step(1)
+    .onFinishChange(() => { // onFinishChange gebeurt wanneer je stopt met tweaking the value
+        mesh.geometry.dispose() // niet meer op de cpu
+        mesh.geometry = new THREE.BoxGeometry(
+            1, 1, 1,
+            debugObject.subdivision, debugObject.subdivision, debugObject.subdivision // kan memory leaks maken
+        )
+    })
+
+
 /**
  * Sizes
  */
