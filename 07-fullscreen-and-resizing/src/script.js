@@ -38,7 +38,7 @@ window.addEventListener('resize', () => {
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height) // update de renderer size
-
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
 /**
@@ -61,6 +61,7 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
+
 
 /**
  * Animate
