@@ -1,6 +1,12 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import GUI from 'lil-gui'
+
+/**
+ * Debug
+ */
+const gui = new GUI()
 
 /**
  * Base
@@ -18,6 +24,27 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+// gui.add(mesh.position, 'y', - 3, 3, 0.01)
+gui
+    .add(mesh.position, 'y')
+    .min(- 3)
+    .max(3)
+    .step(0.01)
+    .name('elevation')
+
+gui
+    .add(mesh, 'visible') // is een checkbox
+
+gui
+    .add(material, 'wireframe')
+
+gui
+    .addColor(material, 'color') // color is een object, daarom kan je niet gewoon add schrijven, maar addColor
+    .onChange((value) => { // Code veranderd niet goed mee/heeft niet dezelfde kleur, daarom de onChange
+        // console.log(material.color)
+        console.log(value.getHexString()) // werkt niet goed voor designers, moet een betere solution zijn
+    })
 
 /**
  * Sizes
