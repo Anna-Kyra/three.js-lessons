@@ -6,10 +6,21 @@ import GUI from 'lil-gui'
 /**
  * Debug
  */
-const gui = new GUI()
-const debugObject = {
+const gui = new GUI({
+    width: 300,
+    title: 'Nice debug UI', // bij deafult controls
+    closeFolders: true // Bij default zijn de folders closed dan
+})
+// gui.close()
+gui.hide() // kan debug ui niet meer zien
 
-}
+window.addEventListener('keydown', (event) => { // debug ui toggelen met 'h'
+    if(event.key == 'h'){
+        gui.show(gui._hidden)
+    }
+})
+
+const debugObject = {}
 
 /**
  * Base
