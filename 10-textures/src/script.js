@@ -8,19 +8,44 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 /**
  * Textures
  */
-const image = new Image()
-const texture = new THREE.Texture(image) // creating texture
-texture.colorSpace = THREE.SRGBColorSpace
+// const image = new Image()
+// const texture = new THREE.Texture(image) // creating texture
+// texture.colorSpace = THREE.SRGBColorSpace
 
-image.onload = () => {
-    // console.log('image loaded')
+// image.onload = () => {
+//     // console.log('image loaded')
     
-    texture.needsUpdate = true // moet texture updaten, niet nieuwe const maken
-    console.log(texture)
+//     texture.needsUpdate = true // moet texture updaten, niet nieuwe const maken
+//     console.log(texture)
     
+// }
+
+// image.src = '/textures/door/color.jpg'
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = () => {
+    console.log('onStart')
+}
+loadingManager.onLoad = () => {
+    console.log('onLoad')
+}
+loadingManager.onPogress = () => {
+    console.log('onProgress')
+}
+loadingManager.onError = () => {
+    console.log('onError')
 }
 
-image.src = '/textures/door/color.jpg'
+const textureLoader = new THREE.TextureLoader(loadingManager) // hoeft alleen 1 texture loader
+
+const colorTexture = textureLoader.load('/textures/door/color.jpg')
+colorTexture.colorSpace = THREE.SRGBColorSpace // Voor map en matcap, anders krijg je doffere kleuren
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('/textures/door/height.jpg')
+const normalTexture = textureLoader.load('/textures/door/normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 
 
 /**
@@ -36,7 +61,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture }) // map/matcap zijn nu sRGB
+const material = new THREE.MeshBasicMaterial({ map: colorTexture }) // map/matcap zijn nu sRGB
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
