@@ -47,19 +47,19 @@ const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclus
 const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
 const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 
-colorTexture.repeat.x = 2 // repeat is gewoon een vector 2, dus je kan x en y properties gebruiken
-colorTexture.repeat.y = 3
-// colorTexture.wrapS = THREE.RepeatWrapping // repeat de texture/uv wrap wanneer het kleiner is dan de geometry, dus met repeat doe je dat en met dezelfde maak je de andere aan
-// colorTexture.wrapT = THREE.RepeatWrapping
-colorTexture.wrapS = THREE.MirroredRepeatWrapping // zelfde als repeat wrapping maar dan gespiegeld
-colorTexture.wrapT = THREE.MirroredRepeatWrapping
+// colorTexture.repeat.x = 2 // repeat is gewoon een vector 2, dus je kan x en y properties gebruiken
+// colorTexture.repeat.y = 3
+// // colorTexture.wrapS = THREE.RepeatWrapping // repeat de texture/uv wrap wanneer het kleiner is dan de geometry, dus met repeat doe je dat en met dezelfde maak je de andere aan
+// // colorTexture.wrapT = THREE.RepeatWrapping
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping // zelfde als repeat wrapping maar dan gespiegeld
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping
 
-colorTexture.offset.x = 0.5
-colorTexture.offset.y = 0.5
+// colorTexture.offset.x = 0.5
+// colorTexture.offset.y = 0.5
 
-colorTexture.rotation = Math.PI / 4 // is een radiant, dus je kan math.PI gebruiken
-colorTexture.center.x = 0.5 // origin point aangeven, deze gaat naar het midden
-colorTexture.center.y = 0.5
+// colorTexture.rotation = Math.PI / 4 // is een radiant, dus je kan math.PI gebruiken
+// colorTexture.center.x = 0.5 // origin point aangeven, deze gaat naar het midden
+// colorTexture.center.y = 0.5
 
 
 /**
