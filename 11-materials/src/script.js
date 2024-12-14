@@ -11,6 +11,25 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
+ * Object
+ */
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+
+const sphere = new THREE.SphereGeometry(1, 30, 30)
+const meshSphere = new THREE.Mesh(sphere, material)
+scene.add(meshSphere)
+meshSphere.position.x = -2
+
+const plane = new THREE.PlaneGeometry(1, 1)
+const meshPlane = new THREE.Mesh(plane, material)
+scene.add(meshPlane)
+
+const Torus = new THREE.TorusGeometry(.5, .3, 10, 30)
+const meshTorus = new THREE.Mesh(Torus, material)
+scene.add(meshTorus)
+meshTorus.position.x = 2
+
+/**
  * Sizes
  */
 const sizes = {
