@@ -23,7 +23,7 @@ const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
 const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 const doorMetalnessTexture = textureLoader.load('./textures/door/metalness.jpg')
 const doorRoughnessTexture = textureLoader.load('./textures/door/roughness.jpg')
-const matcapTexture = textureLoader.load('./textures/matcaps/1.jpg')
+const matcapTexture = textureLoader.load('./textures/matcaps/4.png')
 const gradientTexture = textureLoader.load('./textures/gradients/3.jpg')
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace
@@ -47,8 +47,8 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 
 // dit is hetzelfde
 
-const material = new THREE.MeshNormalMaterial()
-material.flatShading = true
+const material = new THREE.MeshMatcapMaterial()
+material.matcap = matcapTexture
 material.side = THREE.DoubleSide
 
 const sphere = new THREE.Mesh (
