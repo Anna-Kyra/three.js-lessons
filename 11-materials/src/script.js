@@ -1,5 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import GUI from 'lil-gui'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+// console.log(RGBELoader)
+
+/**
+ * Debug
+ */
+const gui = new GUI()
 
 /**
  * Base
@@ -67,11 +75,20 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 // material.specular = new THREE.Color(0x1188ff)
 
 // MeshToonMaterial
-const material = new THREE.MeshToonMaterial()
-gradientTexture.minFilter = THREE.NearestFilter
-gradientTexture.magFilter = THREE.NearestFilter
-gradientTexture.generateMipmaps = false
-material.gradientMap = gradientTexture
+// const material = new THREE.MeshToonMaterial()
+// gradientTexture.minFilter = THREE.NearestFilter
+// gradientTexture.magFilter = THREE.NearestFilter
+// gradientTexture.generateMipmaps = false
+// material.gradientMap = gradientTexture
+
+// MeshStanderdMaterial
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.7
+material.roughness = 0.2
+
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+
 
 
 material.side = THREE.DoubleSide
@@ -107,6 +124,12 @@ pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
+
+/**
+ * Environment map
+ */
+
+const rgbeLoader = new RGBELoader()
 
 /**
  * Sizes
