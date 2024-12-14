@@ -56,7 +56,10 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 // material.matcap = matcapTexture
 
 // MeshDeptMaterial
-const material = new THREE.MeshDepthMaterial()
+// const material = new THREE.MeshDepthMaterial()
+
+// MeshLambertMaterial
+const material = new THREE.MeshLambertMaterial()
 
 material.side = THREE.DoubleSide
 
@@ -78,6 +81,19 @@ const torus = new THREE.Mesh(
 torus.position.x = 2
 
 scene.add(sphere, plane, torus)
+
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xfffff, 1)
+scene.add(ambientLight)
+
+const pointLight = new THREE.PointLight(0xfffff, 30) // color, intensity
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
 
 /**
  * Sizes
