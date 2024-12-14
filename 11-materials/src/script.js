@@ -25,7 +25,7 @@ const textureLoader = new THREE.TextureLoader()
 
 const doorColorTexture = textureLoader.load('./textures/door/color.jpg')
 console.log(doorColorTexture)
-const doorAplhaTexture = textureLoader.load('./textures/door/alpha.jpg')
+const doorAlphaTexture = textureLoader.load('./textures/door/alpha.jpg')
 const doorAmbientOcclusionTexture = textureLoader.load('./textures/door/ambientOcclusion.jpg')
 const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
 const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
@@ -83,29 +83,42 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 
 // MeshStanderdMaterial
 const material = new THREE.MeshStandardMaterial()
-material.metalness = 0.7
-material.roughness = 0.2
+material.metalness = 1 
+material.roughness = 1
+material.map = doorColorTexture
+material.aoMap = doorAmbientOcclusionTexture
+material.aoMapIntensity = 1
+material.displacementMap = doorHeightTexture // ziet er raar uit/bij de plane gebeurt niks, je hebt meer subdivision nodig!!
+material.displacementScale = 0.1
+material.metalnessMap = doorMetalnessTexture // wordt geduppliseerd met de material.metalness (daarom nu 1)
+material.roughnessMap = doorRoughnessTexture // wordt gedupliseerd met de material.roughness (daarom nu 1)
+material.normalMap = doorNormalTexture
+material.normalScale.set(0.5, 0.5)
+material.transparent = true
+material.alphaMap = doorAlphaTexture
 
 gui.add(material, 'metalness').min(0).max(1).step(0.0001)
 gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+gui.add(material, 'aoMapIntensity').min(-5).max(5).step(0.01)
+gui.add(material, 'displacementScale').min(-1).max(1).step(0.01)
 
 
 
 material.side = THREE.DoubleSide
 
 const sphere = new THREE.Mesh (
-    new THREE.SphereGeometry(0.5, 16, 16),
+    new THREE.SphereGeometry(0.5, 64, 64),
     material
 )
 sphere.position.x = -2
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1),
+    new THREE.PlaneGeometry(1, 1, 100, 100),
     material
 )
 
 const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+    new THREE.TorusGeometry(0.3, 0.2, 64, 128),
     material
 )
 torus.position.x = 2
@@ -116,20 +129,27 @@ scene.add(sphere, plane, torus)
  * Lights
  */
 
-const ambientLight = new THREE.AmbientLight(0xfffff, 1)
-scene.add(ambientLight)
+// const ambientLight = new THREE.AmbientLight(0xfffff, 1)
+// scene.add(ambientLight)
 
-const pointLight = new THREE.PointLight(0xfffff, 30) // color, intensity
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
+// const pointLight = new THREE.PointLight(0xfffff, 30) // color, intensity
+// pointLight.position.x = 2
+// pointLight.position.y = 3
+// pointLight.position.z = 4
+// scene.add(pointLight)
 
 /**
  * Environment map
  */
 
 const rgbeLoader = new RGBELoader()
+rgbeLoader.load('./textures/environmentMap/2k.hdr', (environmentMap) => {
+    // console.log(environmentMap)
+    environmentMap.mapping = THREE.EquirectangularReflectionMapping
+
+    scene.background = environmentMap // achtergrond implementeren
+    scene.environment = environmentMap // Light van achtergrond implementeren
+}) // met met function, omdat het nog aan het loaden is
 
 /**
  * Sizes
