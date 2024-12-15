@@ -21,6 +21,7 @@ const scene = new THREE.Scene()
  */
 const textureLoader = new THREE.TextureLoader()
 const matcapTexture = textureLoader.load('textures/matcaps/eigen_matcap3.png')
+const matcapTexture2 = textureLoader.load('textures/matcaps/11.png')
 matcapTexture.colorSpace = THREE.SRGBColorSpace
 
 /**
@@ -71,6 +72,24 @@ fontLoader.load(
 
             scene.add(donut)
         }
+
+        // Spheres
+        const sphereGeometry = new THREE.SphereGeometry( 0.3, 16, 16 )
+        const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
+
+        for(let i = 0; i < 20; i++)
+            {
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+                sphere.position.x = (Math.random() - 0.5) * 10
+                sphere.position.y = (Math.random() - 0.5) * 10
+                sphere.position.z = (Math.random() - 0.5) * 10
+                sphere.rotation.x = Math.random() * Math.PI
+                sphere.rotation.y = Math.random() * Math.PI
+                const scale = Math.random() * 0.5
+                sphere.scale.set(scale, scale, scale)
+    
+                scene.add(sphere)
+            }
     }
 )
 
