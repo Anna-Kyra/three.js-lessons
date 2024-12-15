@@ -17,9 +17,9 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-// Axes helper
-const axesHelper = new THREE.AxesHelper()
-scene.add(axesHelper)
+// // Axes helper
+// const axesHelper = new THREE.AxesHelper()
+// scene.add(axesHelper)
 
 
 
@@ -27,6 +27,9 @@ scene.add(axesHelper)
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
+matcapTexture.colorSpace = THREE.SRGBColorSpace
+
 
 
 
@@ -69,10 +72,32 @@ fontLoader.load(
         textGeometry.center() // veel snellere manier!!
 
 
-        const textMaterial = new THREE.MeshBasicMaterial()
-        textMaterial.wireframe = true // Om te kijken hoeveel triangels er zijn
+        const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture })
+        // textMaterial.wireframe = true // Om te kijken hoeveel triangels er zijn
         const text = new THREE.Mesh(textGeometry, textMaterial)
         scene.add(text)
+
+        for(let i = 0; i < 100; i++){
+            const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+            const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture })
+            const donut = new THREE.Mesh(donutGeometry, donutMaterial)
+
+            donut.position.x = (Math.random() - 0.5) * 10
+            donut.position.y = (Math.random() - 0.5) * 10
+            donut.position.z = (Math.random() - 0.5) * 10
+
+            donut.rotation.x = Math.random() * Math.PI
+            donut.rotation.y = Math.random() * Math.PI
+
+            const scale = Math.random() // Je wilt ze uniform scalen en niet dat ze plat worden
+            // donut.scale.x = scale
+            // donut.scale.y = scale
+            // donut.scale.z = scale
+
+            donut.scale.set(scale, scale, scale) // kan ook met een set, is korter
+
+            scene.add(donut)
+        }
     }
 )
 
