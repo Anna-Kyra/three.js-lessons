@@ -35,6 +35,9 @@ const textureLoader = new THREE.TextureLoader()
  */
 const fontLoader = new FontLoader() // FontLoader heeft geen THREE. meer ervoor, omdat het nu is geimporteerd van de node_modules
 
+let bevelThickness = 0.03
+let bevelSize = 0.02
+
 fontLoader.load(
     '/fonts/helvetiker_regular.typeface.json',
     (font) => {
@@ -46,12 +49,25 @@ fontLoader.load(
                 depth: 0.2, // Was vroeger height
                 curveSegments: 5, // voor de letters met curves (kleiner is beter voor performance)
                 bevelEnabled: true,
-                bevelThickness: 0.03,
-                bevelSize: 0.02,
+                bevelThickness: bevelThickness,
+                bevelSize: bevelSize,
                 bevelOffset: 0,
                 bevelSegments: 4 // kleiner is beter voor performance
             }
         )
+        textGeometry.computeBoundingBox() // Maak bounding box aan (bij default sphere)
+        // console.log(textGeometry.boundingBox)
+        textGeometry.translate(
+            - (textGeometry.boundingBox.max.x - bevelSize) * 0.5, // die 0.02 komt door de bevelSize
+            - (textGeometry.boundingBox.max.y - bevelSize) * 0.5,
+            - (textGeometry.boundingBox.max.z - bevelThickness) * 0.5 // Die 0.03 komt door de bevelThickness
+        )
+
+        textGeometry.computeBoundingBox() 
+        console.log(textGeometry.boundingBox) // na de translate moet min en max x hetzelfde zijn
+
+
+
         const textMaterial = new THREE.MeshBasicMaterial()
         textMaterial.wireframe = true // Om te kijken hoeveel triangels er zijn
         const text = new THREE.Mesh(textGeometry, textMaterial)
