@@ -55,17 +55,18 @@ fontLoader.load(
                 bevelSegments: 4 // kleiner is beter voor performance
             }
         )
-        textGeometry.computeBoundingBox() // Maak bounding box aan (bij default sphere)
-        // console.log(textGeometry.boundingBox)
-        textGeometry.translate(
-            - (textGeometry.boundingBox.max.x - bevelSize) * 0.5, // die 0.02 komt door de bevelSize
-            - (textGeometry.boundingBox.max.y - bevelSize) * 0.5,
-            - (textGeometry.boundingBox.max.z - bevelThickness) * 0.5 // Die 0.03 komt door de bevelThickness
-        )
+        // textGeometry.computeBoundingBox() // Maak bounding box aan (bij default sphere)
+        // // console.log(textGeometry.boundingBox)
+        // textGeometry.translate(
+        //     - (textGeometry.boundingBox.max.x - bevelSize) * 0.5, // die 0.02 komt door de bevelSize
+        //     - (textGeometry.boundingBox.max.y - bevelSize) * 0.5,
+        //     - (textGeometry.boundingBox.max.z - bevelThickness) * 0.5 // Die 0.03 komt door de bevelThickness
+        // )
 
-        textGeometry.computeBoundingBox() 
-        console.log(textGeometry.boundingBox) // na de translate moet min en max x hetzelfde zijn
+        // textGeometry.computeBoundingBox() 
+        // console.log(textGeometry.boundingBox) // na de translate moet min en max x hetzelfde zijn
 
+        textGeometry.center() // veel snellere manier!!
 
 
         const textMaterial = new THREE.MeshBasicMaterial()
