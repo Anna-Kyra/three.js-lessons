@@ -31,6 +31,11 @@ const pointLight = new THREE.PointLight(0xff9000, 1.5, 10) // kleur, intesity, d
 pointLight.position.set(1, - 0.5, 1)
 scene.add(pointLight)
 
+const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 2, 1, 1) // kleur, intesity, width, height
+rectAreaLight.position.set(-1.5, 0, 1.5)
+rectAreaLight.lookAt(new THREE.Vector3()) // dan kijkt het naar de center (rect light draait dan)
+scene.add(rectAreaLight)
+
 gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001)
 
 /**
