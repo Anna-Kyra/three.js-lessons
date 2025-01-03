@@ -36,6 +36,15 @@ rectAreaLight.position.set(-1.5, 0, 1.5)
 rectAreaLight.lookAt(new THREE.Vector3()) // dan kijkt het naar de center (rect light draait dan)
 scene.add(rectAreaLight)
 
+const spotLight = new THREE.SpotLight(0x78ff00, 4.5, 10, Math.PI * 0.1, 0.25, 1) // kleur, intesity, distance, angle (hoe groot is je circle), penumbra (dofheid van circle), decay(hoever de limit is) 
+spotLight.position.set(0, 2, 3)
+scene.add(spotLight)
+
+spotLight.target.position.x = -0.75
+scene.add(spotLight.target)
+
+console.log(spotLight)
+
 gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001)
 
 /**
