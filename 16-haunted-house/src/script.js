@@ -25,6 +25,16 @@ const sphere = new THREE.Mesh(
 )
 scene.add(sphere)
 
+// Floor
+const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(20, 20), // 20 bij 20 meter
+    new THREE.MeshStandardMaterial()
+)
+
+floor.rotation.x = -Math.PI * 0.5 // Als je hem niet kan zien dan is het de onderkant van de plane
+scene.add(floor)
+
+
 /**
  * Lights
  */
