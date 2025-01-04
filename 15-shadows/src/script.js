@@ -51,6 +51,27 @@ const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.sha
 directionalLightCameraHelper.visible = false
 scene.add(directionalLightCameraHelper)
 
+// Spotlight
+const spotLight = new THREE.SpotLight(0xffffff, 3.6, 10, Math.PI * 0.3)
+spotLight.position.set(0, 2, 2)
+scene.add(spotLight)
+scene.add(spotLight.target)
+
+spotLight.castShadow = true
+spotLight.shadow.mapSize.width = 1024
+spotLight.shadow.mapSize.height = 1024
+spotLight.shadow.camera.fov = 30
+spotLight.shadow.camera.near = 1
+spotLight.shadow.camera.far = 6
+
+console.log(spotLight.shadow.camera) // Is een perspective camera
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
+spotLightCameraHelper.visible = false
+scene.add(spotLightCameraHelper)
+
+
+
 /**
  * Materials
  */
