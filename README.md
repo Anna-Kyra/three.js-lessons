@@ -13,4 +13,5 @@ Website link: https://three-js-lessons.vercel.app/
 
 Mijn eerste THREE.js website die live is gezet :D.
 Is een oefening om verschillende vormen die geleerd zijn bij de voorgaande lessen toe te passen.
+Heb voor de textuur een eigen matcap proberen te maken met blender.
 De les gaat over het maken ven https://www.ilithya.rocks/ haar portfolio.
