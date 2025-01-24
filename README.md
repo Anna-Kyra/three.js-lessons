@@ -21,7 +21,7 @@ De les gaat over het maken ven https://www.ilithya.rocks/ haar portfolio.
 ![image](https://github.com/user-attachments/assets/7c3cf6d4-58da-46e2-8c9e-56eda7fb401b)
 ![Vercel](https://vercelbadge.vercel.app/api/anna-kyra/three.js-lessons)
 
-Website link: https://three-js-lessons-o0omcjjaj-anna-kyras-projects.vercel.app/
+Website link: https://spooky-house-qbs66rxig-anna-kyras-projects.vercel.app/
 
 Heb een spooky huis gemaakt met three.js. Dus tot nu toe alles wat ik heb geleerd van de cursus kon ik in het spooky huis gebruiken. Fyi, heb wel de hele website nagemaakt, heb alleen enkele textures veranderd. Deze les ging over het herhalen van de stof van de vorige lessen: meshes, textures, light, etc. Maar nu in een werkend project!!
 
