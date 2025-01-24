@@ -93,6 +93,17 @@ graveColorTexture.repeat.set(0.3, 0.4)
 graveARMTexture.repeat.set(0.3, 0.4) 
 graveNormalTexture.repeat.set(0.3, 0.4)
 
+// Door
+const doorColorTexture = textureLoader.load('./door/color.jpg')
+const doorAlphaTexture = textureLoader.load('./door/alpha.jpg')
+const doorAmbientOcclusionTexture = textureLoader.load('./door/ambientOcclusion.jpg')
+const doorHeightTexture = textureLoader.load('./door/height.jpg')
+const doorNormalTexture = textureLoader.load('./door/normal.jpg')
+const doorMetalnessTexture = textureLoader.load('./door/metalness.jpg')
+const doorRoughnessTexture = textureLoader.load('./door/roughness.jpg')
+
+doorColorTexture.colorSpace = THREE.SRGBColorSpace
+
 /**
  * House
  */
@@ -165,9 +176,18 @@ house.add(roof)
 
 // Door
 const door = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.2, 2.2),
+    new THREE.PlaneGeometry(2.2, 2.2, 100, 100),
     new THREE.MeshStandardMaterial({
-        color: 'red'
+        map: doorColorTexture,
+        transparent: true,
+        alphaMap: doorAlphaTexture,
+        aoMap: doorAmbientOcclusionTexture,
+        displacementMap: doorHeightTexture,
+        displacementScale: 0.15,
+        displacementBias: -0.04,
+        normalMap: doorNormalTexture,
+        metalnessMap: doorMetalnessTexture,
+        roughnessMap: doorRoughnessTexture
     })
 )
 door.position.y = 1.1
@@ -178,6 +198,7 @@ house.add(door)
 // Bushes
 const bushGeometry = new THREE.SphereGeometry(1, 16, 16)
 const bushMaterial = new THREE.MeshStandardMaterial({
+    color: '#ccffcc',
     map: bushColorTexture,
     aoMap: bushARMTexture,
     roughnessMap: bushARMTexture,
