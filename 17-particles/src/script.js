@@ -29,9 +29,11 @@ const particlesGeometry = new THREE.BufferGeometry()
 const count = 20000 // 500 particles
 
 const position = new Float32Array(count * 3) // keer 3 omdat x,y,z
+const color = new Float32Array(count * 3) // is het zelfde als position maar dan met rgb
 
 for(let i = 0; i < count * 3; i++){
-    position[i] = (Math.random() - 0.5) * 10 // -0.5 zodat keer tien het -5 naar 5 gaat
+    position[i] = (Math.random() - 0.5) * 10, // -0.5 zodat keer tien het -5 naar 5 gaat
+    color[i] = Math.random()
 }
 
 particlesGeometry.setAttribute(
@@ -39,17 +41,23 @@ particlesGeometry.setAttribute(
     new THREE.BufferAttribute(position, 3)
 )
 
+particlesGeometry.setAttribute(
+    'color', 
+    new THREE.BufferAttribute(color, 3)
+)
+
 // Material
 const particlesMaterial = new THREE.PointsMaterial()
 particlesMaterial.size = 0.1
 particlesMaterial.sizeAttenuation = true
-particlesMaterial.color = new THREE.Color('#ffd372')
+// particlesMaterial.color = new THREE.Color('#ffd372')
 particlesMaterial.transparent = true
 particlesMaterial.alphaMap = particleTexture
 // particlesMaterial.alphaTest = 0.001
 // particlesMaterial.depthTest = false
 particlesMaterial.depthWrite = false
 particlesMaterial.blending = THREE.AdditiveBlending
+particlesMaterial.vertexColors = true
 
 
 // Points
