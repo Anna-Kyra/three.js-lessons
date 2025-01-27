@@ -23,11 +23,22 @@ const textureLoader = new THREE.TextureLoader()
  * Particles
  */
 // Geometry
-const particlesGeometry = new THREE.TorusKnotGeometry(10, 3, 100, 16)
+const particlesGeometry = new THREE.BufferGeometry()
+
+const count = 5000 // 500 particles
+
+const position = new Float32Array(count * 3) // keer 3 omdat x,y,z
+
+for(let i = 0; i < count * 3; i++){
+    position[i] = (Math.random() - 0.5) * 10 // -0.5 zodat keer tien het -5 naar 5 gaat
+}
+
+const attribute = new THREE.BufferAttribute(position, 3)
+particlesGeometry.setAttribute('position', attribute)
 
 // Material
 const particlesMaterial = new THREE.PointsMaterial()
-particlesMaterial.size = 0.02
+particlesMaterial.size = 0.01
 particlesMaterial.sizeAttenuation = true
 
 // Points
