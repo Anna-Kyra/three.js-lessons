@@ -20,6 +20,10 @@ const scene = new THREE.Scene()
 const parameters = {}
 parameters.count = 100000
 parameters.size = 0.01
+parameters.radius = 5
+parameters.branches = 3
+parameters.spin = 1
+
 
 let geometry = null
 let material = null
@@ -45,9 +49,17 @@ const generateGalaxy = () => {
     for(let i = 0; i < parameters.count; i++){
         const i3 = i * 3
 
-        positions[i3 + 1] = Math.random() - 0.5 // y
-        positions[i3 + 0] = Math.random() - 0.5 // x
-        positions[i3 + 2] = Math.random() - 0.5 // z
+        const radius = Math.random() * parameters.radius
+        const spinAngle = radius * parameters.spin // want verder weg van de center des te meer spin we willen
+        const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
+
+        if(i < 20){ // zodat je niet je computer crached
+            console.log(i, branchAngle) // de i en brancheAngle naast elkaar zien, je krijgt nu 0 1 2 bij de brancheangle door de modulo
+        }
+
+        positions[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius // x
+        positions[i3 + 1] = 0 // y
+        positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius // z
     }
 
     geometry.setAttribute(
@@ -76,6 +88,9 @@ generateGalaxy()
 
 gui.add(parameters, 'count').min(100).max(1000000).step(100).onFinishChange(generateGalaxy)
 gui.add(parameters, 'size').min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy) // moet achter de generateGalaxy function call, gebruik geen onChange slecht voor de computer
+gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy)
+gui.add(parameters, 'branches').min(2).max(20).step(1).onFinishChange(generateGalaxy)
+gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
 
 /**
  * Sizes
