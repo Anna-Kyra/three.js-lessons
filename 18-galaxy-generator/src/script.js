@@ -25,6 +25,8 @@ parameters.branches = 3
 parameters.spin = 1
 parameters.randomness = 0.2
 parameters.randomnessPower = 3
+parameters.insideColor = '#ff6030'
+parameters.outsideColor = '#1b3984'
 
 
 let geometry = null
@@ -46,11 +48,18 @@ const generateGalaxy = () => {
      */
     geometry = new THREE.BufferGeometry()
 
-    const positions = new Float32Array(parameters.count * 3)
+    const positions = new Float32Array(parameters.count * 3) // drie want xyz
+    const colors = new Float32Array(parameters.count * 3) // ook drie want rgb
+
+    const colorInside = new THREE.Color(parameters.insideColor)
+    const colorOutside = new THREE.Color(parameters.outsideColor)
+
+    console.log(colorInside)
 
     for(let i = 0; i < parameters.count; i++){
         const i3 = i * 3
 
+        // Position
         const radius = Math.random() * parameters.radius
         const spinAngle = radius * parameters.spin // want verder weg van de center des te meer spin we willen
         const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
@@ -59,19 +68,27 @@ const generateGalaxy = () => {
         const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1)
         const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : -1)
 
-
-        if(i < 20){ // zodat je niet je computer crached
-            console.log(i, branchAngle) // de i en brancheAngle naast elkaar zien, je krijgt nu 0 1 2 bij de brancheangle door de modulo
-        }
-
-        positions[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX // x
+        positions[i3    ] = Math.cos(branchAngle + spinAngle) * radius + randomX // x
         positions[i3 + 1] = randomY // y
         positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ // z
+
+        // Color
+        const mixedColor = colorInside.clone() // clonen omdat je dan niet de echte kleur aantast
+        mixedColor.lerp(colorOutside, radius / parameters.radius) // met lerp kan je kleuren mixen
+
+        colors[i3    ] = mixedColor.r
+        colors[i3 + 1] = mixedColor.g
+        colors[i3 + 2] = mixedColor.b
     }
 
     geometry.setAttribute(
         'position', 
         new THREE.BufferAttribute(positions, 3)
+    )
+
+    geometry.setAttribute(
+        'color', 
+        new THREE.BufferAttribute(colors, 3)
     )
 
     /**
@@ -81,7 +98,8 @@ const generateGalaxy = () => {
         size: parameters.size,
         sizeAttenuation: true,
         depthWrite: false,
-        blending: THREE.AdditiveBlending
+        blending: THREE.AdditiveBlending,
+        vertexColors: true // gebruikt nu de vertex colors
     })
 
     /**
@@ -100,6 +118,8 @@ gui.add(parameters, 'branches').min(2).max(20).step(1).onFinishChange(generateGa
 gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
 gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(generateGalaxy)
 gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
 
 /**
  * Sizes
