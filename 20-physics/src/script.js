@@ -42,33 +42,31 @@ const world = new CANNON.World()
 world.gravity.set(0, -9.82, 0)
 
 // Materials
-const concreteMaterial = new CANNON.Material('concrete')
-const plasticMaterial = new CANNON.Material('plastic')
+const defaultMaterial = new CANNON.Material('default')
 
-const concretePlasticContactMaterial = new CANNON.ContactMaterial(
-    concreteMaterial,
-    plasticMaterial,
+const defaultContactMaterial = new CANNON.ContactMaterial(
+    defaultMaterial,
+    defaultMaterial,
     {
         friction: 0.1, 
         restitution: 0.7 // de bounce
     }
 )
-world.addContactMaterial(concretePlasticContactMaterial)
+world.addContactMaterial(defaultContactMaterial)
+world.defaultContactMaterial = defaultContactMaterial // dan hoef je het niet in elke body te plaatsen, dit is je default
 
 // Sphere
 const sphereShape = new CANNON.Sphere(0.5) // zelfde als buffer geometrie
 const sphereBody = new CANNON.Body({
     mass: 1,
     position: new CANNON.Vec3(0, 3, 0), // hoger dan de sphere want je wilt het laten vallen
-    shape: sphereShape,
-    material: plasticMaterial 
+    shape: sphereShape
 })
 world.addBody(sphereBody) // gebruik addBody ipv alleen add
 
 // Floor
 const floorShape = new CANNON.Plane()
 const floorBody = new CANNON.Body()
-floorBody.material = concreteMaterial
 floorBody.mass = 0
 floorBody.addShape(floorShape) // je kan meer shapes op 1 body adden
 floorBody.quaternion.setFromAxisAngle(
