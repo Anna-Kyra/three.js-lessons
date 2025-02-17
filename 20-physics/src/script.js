@@ -35,6 +35,33 @@ const environmentMapTexture = cubeTextureLoader.load([
 ])
 
 /**
+ * Physics
+ */
+// World
+const world = new CANNON.World()
+world.gravity.set(0, -9.82, 0)
+
+// Sphere
+const sphereShape = new CANNON.Sphere(0.5) // zelfde als buffer geometrie
+const sphereBody = new CANNON.Body({
+    mass: 1,
+    position: new CANNON.Vec3(0, 3, 0), // hoger dan de sphere want je wilt het laten vallen
+    shape: sphereShape
+})
+world.addBody(sphereBody) // gebruik addBody ipv alleen add
+
+// Floor
+const floorShape = new CANNON.Plane()
+const floorBody = new CANNON.Body()
+floorBody.mass = 0
+floorBody.addShape(floorShape) // je kan meer shapes op 1 body adden
+floorBody.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(-1, 0, 0),
+    Math.PI * 0.5
+)
+world.addBody(floorBody)
+
+/**
  * Test sphere
  */
 const sphere = new THREE.Mesh(
@@ -134,10 +161,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
+let oldElapsedTime = 0
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    const deltaTime = elapsedTime - oldElapsedTime
+    oldElapsedTime = elapsedTime
+
+    // Update physics world
+    world.step(1 / 60 , deltaTime, 3) 
+    // fixed timestamp, time passed since the last step, how many iterations
+    // 1 / 60 want 60fps
+
+    sphere.position.copy(sphereBody.position)
+
 
     // Update controls
     controls.update()
