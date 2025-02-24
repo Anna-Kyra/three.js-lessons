@@ -62,6 +62,7 @@ const sphereBody = new CANNON.Body({
     position: new CANNON.Vec3(0, 3, 0), // hoger dan de sphere want je wilt het laten vallen
     shape: sphereShape
 })
+sphereBody.applyLocalForce(new CANNON.Vec3(300, 0, 0), new CANNON.Vec3(0,0,0)) // x,y,z
 world.addBody(sphereBody) // gebruik addBody ipv alleen add
 
 // Floor
@@ -184,6 +185,8 @@ const tick = () =>
     oldElapsedTime = elapsedTime
 
     // Update physics world
+    sphereBody.applyForce(new CANNON.Vec3(-0.5, 0, 0), sphereBody.position)
+
     world.step(1 / 60 , deltaTime, 3) 
     // fixed timestamp, time passed since the last step, how many iterations
     // 1 / 60 want 60fps
