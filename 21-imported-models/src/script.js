@@ -21,9 +21,18 @@ const scene = new THREE.Scene()
 const gltfLoader = new GLTFLoader()
 
 gltfLoader.load(
-    '/models/Duck/glTF/Duck.gltf',
+    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
     (gltf) => {
-        console.log(gltf)
+        // console.log(gltf)
+
+        // const children = [...gltf.scene.children] //spreadoperator = dupliceerd de values van een array
+        // console.log(children)
+        
+        // for(const child of children){
+        //     scene.add(child)
+        // }
+
+        scene.add(gltf.scene)
     }
 )
 
