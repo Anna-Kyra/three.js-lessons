@@ -81,6 +81,34 @@ window.addEventListener('resize', () =>
 })
 
 /**
+ * Mouse
+ */
+const mouse = new THREE.Vector2() // vector 2 want je hebt alleen x en y nodig
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX / sizes.width * 2 - 1 // * 2 en -1 is om -0.5 tot 0.5 te krijgen
+    mouse.y = -(event.clientY / sizes.height * 2 - 1) // anders om om positief boven te krijgen en negatief onder
+})
+
+window.addEventListener('click', () => {
+    if(currentIntersect){
+        switch(currentIntersect.object){
+            case object1:
+                console.log('1')
+                break
+            
+            case object2:
+                console.log('2')
+                break
+
+            case object3:
+                console.log('3')
+                break
+        }
+    }
+})
+
+/**
  * Camera
  */
 // Base camera
@@ -106,6 +134,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
+let currentIntersect = null
+
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
@@ -117,11 +147,7 @@ const tick = () =>
 
 
     // Cast a ray
-    const rayOrigin = new THREE.Vector3(-3, 0, 0)
-    const rayDirection = new THREE.Vector3(1, 0, 0)
-    rayDirection.normalize() // Beter om altijd de direction te normaliseren voor als iemand de direction veranderd
-
-    raycaster.set(rayOrigin, rayDirection)
+    raycaster.setFromCamera(mouse, camera)
 
     const objectsToTest = [object1, object2, object3]
     const intersects = raycaster.intersectObjects(objectsToTest)
@@ -134,9 +160,19 @@ const tick = () =>
         intersect.object.material.color.set('blue') // met alleen deze loop blijft de ballen blauw omdat ze beginnen in het midden intersect bij de raycaster
     }
 
-    
+    if(intersects.length){
+        if(currentIntersect === null){
+            console.log('mouse enter')
+        }
 
-    
+        currentIntersect = intersects[0]
+    } else {
+        if(currentIntersect){
+            console.log('mouse leave')
+        }
+
+        currentIntersect = null
+    }
 
     // Update controls
     controls.update()
