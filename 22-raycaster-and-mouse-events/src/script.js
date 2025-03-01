@@ -37,6 +37,23 @@ object3.position.x = 2
 scene.add(object1, object2, object3)
 
 /**
+ * Raycaster
+ */
+const raycaster = new THREE.Raycaster()
+
+const rayOrigin = new THREE.Vector3(-3, 0, 0)
+const rayDirection = new THREE.Vector3(10, 0, 0) 
+rayDirection.normalize()// je wilt dat de raydirection gelijk is aan 1
+
+raycaster.set(rayOrigin, rayDirection)
+
+const intersect = raycaster.intersectObject(object2) // 1 object
+console.log(intersect)
+
+const intersects = raycaster.intersectObjects([object1, object2, object3]) // array objects
+console.log(intersects)
+
+/**
  * Sizes
  */
 const sizes = {
