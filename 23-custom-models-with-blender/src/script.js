@@ -28,7 +28,7 @@ gltfLoader.setDRACOLoader(dracoLoader)
 let mixer = null
 
 gltfLoader.load(
-    '/models/hamburger.glb',
+    '/models/alien3.glb',
     (gltf) =>
     {
         scene.add(gltf.scene)
@@ -36,27 +36,12 @@ gltfLoader.load(
 )
 
 /**
- * Floor
- */
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(50, 50),
-    new THREE.MeshStandardMaterial({
-        color: '#444444',
-        metalness: 0,
-        roughness: 0.5
-    })
-)
-floor.receiveShadow = true
-floor.rotation.x = - Math.PI * 0.5
-scene.add(floor)
-
-/**
  * Lights
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 2.4)
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
 scene.add(ambientLight)
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8)
+const directionalLight = new THREE.DirectionalLight('#808AFF', 4.8)
 directionalLight.castShadow = true
 directionalLight.shadow.mapSize.set(1024, 1024)
 directionalLight.shadow.camera.far = 15
@@ -66,6 +51,22 @@ directionalLight.shadow.camera.right = 7
 directionalLight.shadow.camera.bottom = - 7
 directionalLight.position.set(5, 5, 5)
 scene.add(directionalLight)
+
+const directionalLight2 = new THREE.DirectionalLight('#808AFF', 1)
+directionalLight2.castShadow = true
+directionalLight2.shadow.mapSize.set(1024, 1024)
+directionalLight2.shadow.camera.far = 15
+directionalLight2.shadow.camera.left = - 7
+directionalLight2.shadow.camera.top = 7
+directionalLight2.shadow.camera.right = 7
+directionalLight2.shadow.camera.bottom = - 7
+directionalLight2.position.set(-5, 5, -2)
+scene.add(directionalLight2)
+
+// const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 1.8)
+// scene.add(directionalLightHelper)
+// const directionalLightHelper2 = new THREE.DirectionalLightHelper(directionalLight2, 1.8)
+// scene.add(directionalLightHelper2)
 
 /**
  * Sizes
@@ -95,19 +96,20 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.set(- 8, 4, 8)
+camera.position.set(0, 2, 4)
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-controls.target.set(0, 1, 0)
+controls.target.set(0, 2, 0)
 controls.enableDamping = true
 
 /**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true
 })
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
