@@ -39,6 +39,10 @@ scene.add(object1, object2, object3)
 /**
  * Raycaster
  */
+object1.updateMatrixWorld()
+object2.updateMatrixWorld()
+object3.updateMatrixWorld()
+
 const raycaster = new THREE.Raycaster()
 
 const rayOrigin = new THREE.Vector3(-3, 0, 0)
