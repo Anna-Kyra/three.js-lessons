@@ -10,6 +10,7 @@ import GUI from 'lil-gui'
 const gltfLoader = new GLTFLoader()
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 const rgbeLoader = new RGBELoader()
+const textureLoader = new THREE.TextureLoader()
 
 /**
  * Base
@@ -50,15 +51,26 @@ gui.add(scene.environmentRotation, 'y').min(0).max(Math.PI * 2).step(0.001).name
 // scene.background = environmentMap
 
 // HDR (RGBE) equirectangular
-rgbeLoader.load(
-    '/environmentMaps/blender2-2k.hdr', 
-    (environmentMap) => {
-        environmentMap.mapping = THREE.EquirectangularReflectionMapping
+// rgbeLoader.load(
+//     '/environmentMaps/blender2-2k.hdr', 
+//     (environmentMap) => {
+//         environmentMap.mapping = THREE.EquirectangularReflectionMapping
 
-        scene.background = environmentMap
-        scene.environment = environmentMap
-    }
+//         scene.background = environmentMap
+//         scene.environment = environmentMap
+//     }
+// )
+
+// LDR equirectangular
+const environmentMap = textureLoader.load(
+    '/environmentMaps/blockadesLabsSkybox/anime_art_style_japan_streets_with_cherry_blossom_.jpg'
 )
+environmentMap.mapping = THREE.EquirectangularReflectionMapping
+scene.background = environmentMap
+scene.environment = environmentMap
+environmentMap.colorSpace = THREE.SRGBColorSpace
+
+
 
 /**
  * Torus Knot
