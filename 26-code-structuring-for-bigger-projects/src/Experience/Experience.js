@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
 
@@ -13,6 +14,7 @@ export default class Experience {
         // Setup
         this.sizes = new Sizes()
         this.time = new Time()
+        this.scene = new THREE.Scene()
 
         // Sizes resize event
         this.sizes.on('resize', () => { // moet fat arrow gebruiken om de context niet te verliezen
