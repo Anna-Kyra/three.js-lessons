@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Experience from "../Experience.js"
 import Environment from './Environment.js'
+import Floor from './Floor.js'
 
 export default class World {
     constructor() {
@@ -18,7 +19,9 @@ export default class World {
         // Wait for resources
         this.resources.on('ready', () => {
             // Setup
+            this.floor = new Floor() // floor moet eerst om part of the scene zijn. nu werkt de intensity enzo wel
             this.environment = new Environment() // inside want als je de environment map gebruikt gebruik je de resources
+            
         })
 
         
