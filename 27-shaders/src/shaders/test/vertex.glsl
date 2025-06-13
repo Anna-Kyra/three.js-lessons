@@ -4,12 +4,12 @@ uniform mat4 modelMatrix;
 
 attribute vec3 position;
 
-float loremIpsum(float a, float b) {
-    return a + b;
-}
-
 void main() {
-    float result = loremIpsum(1.0, 2.0);
+    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+    modelPosition.z += sin(modelPosition.x * 10.0) * 0.1;
 
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    vec4 projectionPosition = projectionMatrix * viewPosition;
+
+    gl_Position = projectionPosition;
 }
