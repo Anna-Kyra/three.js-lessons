@@ -42,7 +42,7 @@ console.log(geometry)
 
 
 // Material
-const material = new THREE.RawShaderMaterial({
+const material = new THREE.ShaderMaterial({
     vertexShader: testVertexShader,
     fragmentShader: testFragmentShader,
     transparent: true,
