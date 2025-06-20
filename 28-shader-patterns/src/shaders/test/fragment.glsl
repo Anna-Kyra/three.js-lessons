@@ -94,8 +94,8 @@ void main()
     // strength = step(0.8, strength);
 
     // Patern 11
-    // float strength = step(0.8, mod(vUv.x * 10.0, 1.0)); // Ruiten. x += y
-    // strength += step(0.8, mod(vUv.y * 10.0, 1.0));
+    float strength = step(0.8, mod(vUv.x * 10.0, 1.0)); // Ruiten. x += y
+    strength += step(0.8, mod(vUv.y * 10.0, 1.0));
     
     // Patern 12
     // float strength = step(0.8, mod(vUv.x * 10.0, 1.0)); // witte punten
@@ -286,8 +286,17 @@ void main()
     // float strength = sin(cnoise(vUv * 10.0)* 20.0);
 
     // Patern 50
-    float strength = step(0.9, sin(cnoise(vUv * 10.0)* 20.0));
-    
+    // float strength = step(0.9, sin(cnoise(vUv * 10.0)* 20.0));
 
-    gl_FragColor = vec4(strength, strength, strength, 1.0);
+    // Clamp the strength
+    strength = clamp(strength, 0.0, 1.0); // strength kan niet onder 0.0 of boven 1.0
+
+    // Colored version
+    vec3 blackColor = vec3(0.0);
+    vec3 uvColor = vec3(vUv, 0.5);
+    vec3 mixedColor = mix(blackColor, uvColor, strength);
+    gl_FragColor = vec4(mixedColor, 1.0);
+
+    // Black and white version
+    // gl_FragColor = vec4(strength, strength, strength, 1.0);
 }
